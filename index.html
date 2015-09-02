@@ -14,9 +14,13 @@ layout: default
         <h2>
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         </h2>
+
+        <hr>
+	     <p>{% if post.excerpt.size > 32 %}{{ post.excerpt }}{% else %}{{ post.content | strip_html | strip_newlines | truncate: 160 }}{% endif %}</p>
+		   <p> <a href="{{ post.url }}"><span >阅读全文 &raquo; </span></a></p>
+	     </hr>
       </li>
     {% endfor %}
   </ul>
-
 
 </div>
