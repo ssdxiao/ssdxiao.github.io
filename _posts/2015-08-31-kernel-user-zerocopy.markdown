@@ -6,7 +6,10 @@ title:  "如何用zerocopy机制实现内核访问用户空间"
 
 date:   2015-08-31 22:50:06
 
-categories: linux
+categories: 
+  - linux
+tags:
+  - linux
 ---
 
 

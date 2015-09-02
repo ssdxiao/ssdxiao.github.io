@@ -6,7 +6,10 @@ title:  "Hyper初步分析"
 
 date:   2015-09-02 09:43:31
 
-categories: 虚拟化
+categories: 
+  - 虚拟化
+tags:
+  - 虚拟化
 ---
 
 Docker的快速发展为云场景带来了一丝新意，Docker提出的镜像打包方式迎合了Devops的开发方式，

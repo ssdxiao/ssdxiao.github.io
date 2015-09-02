@@ -2,7 +2,10 @@
 layout: post
 title:  "搭建jekyll"
 date:   2015-08-26 21:13:31
-categories: jekyll
+categories: 
+  - jekyll
+tags:
+  - jekyll
 ---
 
 开始有了好好写点文章的想法，本人一直比较懒，所以以前的文章也就马马虎虎的。
