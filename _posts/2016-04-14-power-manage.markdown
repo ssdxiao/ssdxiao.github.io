@@ -29,7 +29,7 @@ void kernel_power_off(void)
     kmsg_dump(KMSG_DUMP_POWEROFF);
     machine_power_off();                                                                                           
 }
-{%highlight end%}
+{%endhighlight%}
 
 arch/x86/kernel/reboot.c
 {%highlight c%}
@@ -44,7 +44,7 @@ struct machine_ops machine_ops = {
     .crash_shutdown = native_machine_crash_shutdown,
 #endif
 };
-{%highlight end%}
+{%endhighlight%}
 
 在现在计算机中，电源管理交给了APM和ACPI，因为APM有着天然缺陷，所以现在一般都会使用ACPI。
 使用ACPI需要在kernel中开启选项。值得一提的是APM和ACPI只有一个会生效。
@@ -76,7 +76,7 @@ pc_init1
         object_property_set_link(OBJECT(machine), OBJECT(piix4_pm),
                                  PC_MACHINE_ACPI_DEVICE_PROP, &error_abort);
     }
-{%highlight end%}
+{%endhighlight%}
 
 可以看到，如果开启了ACPI，则会触发piix4_pm 这个芯片的初始化。
 这个芯片在 
@@ -126,7 +126,7 @@ static void acpi_pm1_cnt_write(ACPIREGS *ar, uint16_t val)
         }
     }
 }
-{%highlight end%}
+{%endhighlight%}
 
 以上就是如果用户从VM内部执行poweroff后，qemu中ACPi相关的操作。
 
@@ -175,7 +175,7 @@ System Halt.然后卡住了。这也许是一个目前虚拟机中的bug。
                 }
 
 
-{%highlight end%}
+{%endhighlight%}
 
 可以看到 监听的key是@releaseDomain ，这个key是一个特殊key，只要有vm退出都会触发信息。
 所以需要自己来判断是否是关心的VM触发了退出事件。
@@ -213,7 +213,7 @@ int libxl_evenable_domain_death(libxl_ctx *ctx, uint32_t domid,
     return rc;
 };
 
-{%highlight end%}
+{%endhighlight%}
 
 因为xen下的VM并没有依赖ACPI来实现电源管理。所以无论ACPI是否生效，虚拟机都会成功
 关闭，当然，如果没有开启ACPI，在VM关机时，还是会看到System Halt. 

@@ -2,8 +2,8 @@
 
 layout: post
 
-title:  virtio的工作流程-qemu中virtio-backend初始化(1)
-date:   2015-12-10 14:10:00
+title:  virtio的工作流程——qemu中virtio-backend初始化(1)
+date:   2016-03-28 14:10:00
 categories: linux
 tags: 
   - linux
@@ -20,7 +20,7 @@ tags:
 1.简单来说，virtio的设备模拟都是基于virtio-pci设备来进行的。在guest中可以使用lspci看到设备名称。
 这里可以看到使用的驱动都是virtio-pci。
 
-{%highlight bash}
+{%highlight bash%}
 00:03.0 Ethernet controller: Red Hat, Inc Virtio network device
 	Subsystem: Red Hat, Inc Device 0001
 	Physical Slot: 3
@@ -40,26 +40,27 @@ tags:
 	Capabilities: [40] MSI-X: Enable+ Count=2 Masked-
 	Kernel driver in use: virtio-pci
 
-{%endhighlight}
+{%endhighlight%}
 
 2.在kvm下基于virtio-pci最终实现了virtiobus。这里让所有的设备最终挂在virtiobus上。这一细节要放到对virtio-pci前端驱动分析时候来讲。
 
-{%highlight bash}
+{%highlight bash%}
 /sys/bus/virtio/devices
 [root@localhost devices]# ls
 virtio0  virtio1
-{%endhighlight}
+{%endhighlight%}
 
 3.通信流程。通过virtio-pci的中断事件来达到virtio前后端中断的通信。然后通过共享内存的读写，达到数据的传递。所以可以看到半虚驱动的实现基本点就是 1 中断。2共享内存。
 
 
 二 virtio-block后端的初始化。
+
 在qemu启动时，会对相应设备进行初始化。这里，可以看下hw/virtio/virtio-pci.c
 我们需要初始化virtio-block， 在该文件中
 这里就从virtio-pci初始化开始讲起。
 virtio-pci，也是一个pci设备。所以初始化时候会调用到TYPE_PCI_DEVICE的初始化
 
-{%highlight c}
+{%highlight c%}
 
  static const TypeInfo virtio_pci_info = {
       .name          = TYPE_VIRTIO_PCI,
@@ -70,10 +71,10 @@ virtio-pci，也是一个pci设备。所以初始化时候会调用到TYPE_PCI_D
       .abstract      = true,
   };
 
-{%endhighlight}
+{%endhighlight%}
 
 在pci设备初始化时候，调用pci_device_class_init函数。
-{%highlight c}
+{%highlight c%}
  static const TypeInfo pci_device_type_info = {
       .name = TYPE_PCI_DEVICE,
       .parent = TYPE_DEVICE,
@@ -82,11 +83,11 @@ virtio-pci，也是一个pci设备。所以初始化时候会调用到TYPE_PCI_D
       .class_size = sizeof(PCIDeviceClass),
       .class_init = pci_device_class_init,
   };
-{%endhighlight}
+{%endhighlight%}
 
 pci_device_class_init函数定义了初始化pci_qdev_init 。
 
-{%highlight c}
+{%highlight c%}
   static void pci_device_class_init(ObjectClass *klass, void *data)
   {
       DeviceClass *k = DEVICE_CLASS(klass);
@@ -96,12 +97,12 @@ pci_device_class_init函数定义了初始化pci_qdev_init 。
       k->bus_type = TYPE_PCI_BUS;
       k->props = pci_props;
   }
-{%endhighlight}
+{%endhighlight%}
 
 这样，在virio-pci初始化时候，就会触发pci_qdev_init 函数，从而把pci设备加入到qdev tree中，同时也在I/O设备空间的内存中进行了注册。
 
 
-{%highlight c}
+{%highlight c%}
 static int virtio_pci_init(PCIDevice *pci_dev)
 {
     VirtIOPCIProxy *dev = VIRTIO_PCI(pci_dev);
@@ -113,11 +114,11 @@ static int virtio_pci_init(PCIDevice *pci_dev)
     }
     return 0;
 }
-{%endhighlight}
+{%endhighlight%}
 
 pci_qdev_init主要添加了pci rom。以及调用do_pci_register_device函数对pci设备在内存进行了注册。
 
-{%highlight c}
+{%highlight c%}
  static int pci_qdev_init(DeviceState *qdev)
   {
       PCIDevice *pci_dev = (PCIDevice *)qdev;
@@ -172,11 +173,11 @@ pci_qdev_init主要添加了pci rom。以及调用do_pci_register_device函数�
       }
       return 0;
   }
-{%endhighlight}
+{%endhighlight%}
 
 do_pci_register_device中初始化了pci相关config配置。
 
-{%highlight c}
+{%highlight c%}
  static PCIDevice *do_pci_register_device(PCIDevice *pci_dev, PCIBus *bus,
                                            const char *name, int devfn)
   {
@@ -259,11 +260,11 @@ do_pci_register_device中初始化了pci相关config配置。
       pci_dev->version_id = 2; /* Current pci device vmstate version */
       return pci_dev;
   }
-{%endhighlight}
+{%endhighlight%}
 
 完成后，调用virtio_blk_pci_init初始化
 
-{%highlight c}
+{%highlight c%}
  static int virtio_blk_device_init(VirtIODevice *vdev)
   {
       DeviceState *qdev = DEVICE(vdev);
@@ -317,12 +318,12 @@ do_pci_register_device中初始化了pci相关config配置。
       add_boot_device_path(s->conf->bootindex, qdev, "/disk@0,0");                                                                                                   
       return 0;
   }
-{%endhighlight}
+{%endhighlight%}
 
 
 调用virtio_pci_device_plugged。添加到virtio_bus上。
 
-{%highlight c}
+{%highlight c%}
   static void virtio_pci_device_plugged(DeviceState *d)
   {
       VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
@@ -368,13 +369,13 @@ do_pci_register_device中初始化了pci相关config配置。
       proxy->host_features = virtio_bus_get_vdev_features(bus,
                                                         proxy->host_features);
   }
- {%endhighlight} 
+ {%endhighlight%} 
 
 这里初始化完成。
 在main函数中 所有设备初始化完成，会调用一次qemu_devices_reset对应pci设备。这个动作复位了pci设备的状态等信息。
 
 
-{%highlight c}
+{%highlight c%}
   static void virtio_pci_reset(DeviceState *qdev)
   {
       VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
@@ -384,12 +385,12 @@ do_pci_register_device中初始化了pci相关config配置。
       msix_unuse_all_vectors(&proxy->pci_dev);                                                                     
       proxy->flags &= ~VIRTIO_PCI_FLAG_BUS_MASTER_BUG;
   }
- {%endhighlight} 
+ {%endhighlight%} 
 
 在VM状态变化时候，会调用virtio_vmstate_change函数，来改变virtio的状态。
 这里需要在VM处于runing状态，和virtio驱动都初始化以后，才开始改变状态。
 
-{%highlight c}
+{%highlight c%}
   static void virtio_vmstate_change(void *opaque, int running, RunState state)
   {
       VirtIODevice *vdev = opaque;
@@ -410,7 +411,7 @@ do_pci_register_device中初始化了pci相关config配置。
           virtio_set_status(vdev, vdev->status);
       }
   }
- {%endhighlight} 
+ {%endhighlight%} 
 
 现在就等待virtio-pci的驱动开始生效时候，和virtio-back来进行信息协商。
 

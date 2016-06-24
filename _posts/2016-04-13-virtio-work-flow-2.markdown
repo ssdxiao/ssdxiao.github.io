@@ -2,8 +2,8 @@
 
 layout: post
 
-title:  virtio的工作流程-kernel中virtio-pci初始化(2)
-date:   2015-04-13 14:10:00
+title:  virtio的工作流程——kernel中virtio-pci初始化(2)
+date:   2016-04-13 14:10:00
 categories: linux
 tags: 
   - linux
@@ -107,7 +107,7 @@ virtio-pci的驱动加载是在寄存器初始化好以后，开始进行的。
   }
 
 
-{%highlight end%}
+{%endhighlight%}
 
 register_virtio_device主要是注册设备，并且对设备进行状态设置，
 VIRTIO_CONFIG_S_ACKNOWLEDGE  表示是发现了设备，这里注册设备到virtio_bus,这里会触发vritio_bus的probe函数。
@@ -145,7 +145,7 @@ VIRTIO_CONFIG_S_ACKNOWLEDGE  表示是发现了设备，这里注册设备到vir
           add_status(dev, VIRTIO_CONFIG_S_FAILED);
       return err;
   }
-{%highlight end%}
+{%endhighlight%}
 
 会调用的virtio设备的virtio_dev_probe初始化设备。然后调用具体的vritio设备驱动来初始化。
 可以看到virtio_bus主要控制了设备的连接状态，对于真正需要virito前后端建立连接的工作还是
@@ -194,7 +194,7 @@ VIRTIO_CONFIG_S_DRIVER_OK 驱动初始化完成。
   
       return err;
   }
-{%highlight end%}
+{%endhighlight%}
 virtblk_probe 函数主要做了这些，读取配置，初始化ring环。
 
 {%highlight c%}
@@ -389,7 +389,7 @@ virtblk_probe 函数主要做了这些，读取配置，初始化ring环。
   out:
       return err;
   }
-{%highlight end%}
+{%endhighlight%}
 
 vq_init->virtio_find_single_vq，调用了virtio-pci驱动中的vp_find_vqs->vp_try_to_find_vqs。
 这里，根据情况 初始化msix或者是irq中断。并注册了callback。
@@ -476,7 +476,7 @@ vq_init->virtio_find_single_vq，调用了virtio-pci驱动中的vp_find_vqs->vp_
   }
            false, false);
   }
-{%highlight end%}
+{%endhighlight%}
 
 setup_vq用来初始化vring，并且通知后端msix中断。
 
@@ -564,7 +564,7 @@ setup_vq用来初始化vring，并且通知后端msix中断。
       kfree(info);
       return ERR_PTR(err);
   }
-{%highlight end%}
+{%endhighlight%}
 
 
 
