@@ -1,7 +1,7 @@
 # Site settings
 title: 任思绪在这里飞
 description: 留下曾经学习的痕迹
-email: ssdxiao@163.com
+email: xiaoding@fiberhome.com
 baseurl: http://ssdxiao.github.io # the subpath of your site, e.g. /blog/
 url: "" # the base hostname & protocol for your site
 giturl: https://github.com/ssdxiao/ssdxiao.github.io
