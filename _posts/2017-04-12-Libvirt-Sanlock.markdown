@@ -74,17 +74,17 @@ dd if=/dev/zero bs=1048576 count=1 of=/mnt/nfs/test_lockspace
 dd if=/dev/zero bs=1048576 count=1 of=/mnt/nfs/test_resource
 chown sanlock:sanlock /mnt/nfs/test_lockspace
 chown sanlock:sanlock /mnt/nfs/test_resource
-sanlock client init -s LS:0:/mnt/nfs/test_lockspace：0
-sanlock client init -r LS:RS:/mnt/nfs/test_resource：0
+sanlock client init -s LS:0:/mnt/nfs/test_lockspace:0
+sanlock client init -r LS:RS:/mnt/nfs/test_resource:0
 {% endhighlight %}
 
 
 * 接下来要分别在两个主机将主机加入到sanlock中
 {%highlight bash%}
 #hostA
-   sanlock client add_lockspace -s  LS:1:/mnt/nfs/test_lockspace：0
+   sanlock client add_lockspace -s  LS:1:/mnt/nfs/test_lockspace:0
 #hostB
-   sanlock client add_lockspace -s  LS:2:/mnt/nfs/test_lockspace：0   
+   sanlock client add_lockspace -s  LS:2:/mnt/nfs/test_lockspace:0   
 {% endhighlight %}
 
 * 可以使用锁服务了
@@ -125,17 +125,17 @@ dd if=/dev/zero bs=1048576 count=1 of=/var/lib/libvirt/sanlock/LS
 dd if=/dev/zero bs=1048576 count=1 of=/var/lib/libvirt/sanlock/RS
 chown sanlock:sanlock /var/lib/libvirt/sanlock/LS
 chown sanlock:sanlock /var/lib/libvirt/sanlock/RS
-sanlock client init -s LS:0:/var/lib/libvirt/sanlock/LS：0
-sanlock client init -r LS:RS:/var/lib/libvirt/sanlock/RS：0
+sanlock client init -s LS:0:/var/lib/libvirt/sanlock/LS:0
+sanlock client init -r LS:RS:/var/lib/libvirt/sanlock/RS:0
 {% endhighlight %}
 
 接下来将所在主机的LOCKSPACE文件加入到sanlock中
 
 {%highlight bash%}
 #hostA
-   sanlock client add_lockspace -s  LS:1:/var/lib/libvirt/sanlock/LS：0
+   sanlock client add_lockspace -s  LS:1:/var/lib/libvirt/sanlock/LS:0
 #hostB
-   sanlock client add_lockspace -s  LS:2:/var/lib/libvirt/sanlock/LS：0   
+   sanlock client add_lockspace -s  LS:2:/var/lib/libvirt/sanlock/LS:0   
 {% endhighlight %}
 
 接下来在libvirt中配置xml
